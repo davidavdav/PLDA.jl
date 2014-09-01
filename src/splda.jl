@@ -69,3 +69,24 @@ function em!(model::SPLDA, S::Matrix{Float64}, F::Matrix{Float64}, N::Vector{Int
 #    model.D = D
     obj
 end
+
+## Initialize and train an SPLDA model using the em! function above
+function SPLDA(nvoices::Int, S::Matrix{Float64}, F::Matrix{Float64}, N::Vector{Int}, 
+               μ::Vector{Float64}; niters=50, doMinDiv=true, doD=true, doV=true)
+    D = inv(S/sum(N))
+    V = randn(length(μ), nvoices)
+    model = SPLDA(D, V, μ)
+    obj = zeros(niters)
+    for i=1:niters
+        obj[i] = em!(model, S, F, N, doMinDiv, doD, doV)
+        println(i, " ", obj[i])
+    end
+    model
+end
+             
+## ivectors in F are column vectors
+function train(model::SPLDA, Ntrain::Vector{Int}, Ftrain::Matrix{Float64}, accum::Matrix{Int})
+    D = model.D
+    V = model.V
+    μ = model.mu
+

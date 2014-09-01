@@ -114,7 +114,7 @@ F = zeros(dim,ns);
 N = zeros(1,ns);
 S = zeros(dim);
 VY = V*randn(ydim,ns);
-h = waitbar(0,'simulating');
+## h = waitbar(0,'simulating');
 data = cell(1,ns);
 Trans = chol(inv(D))';
 for i=1:ns
@@ -123,9 +123,9 @@ for i=1:ns
     data{i} = bsxfun(@plus,VY(:,i),X);
     F(:,i) = sum(data{i},2);
     S = S + data{i}*data{i}';
-    waitbar(i/ns,h);
+##    waitbar(i/ns,h);
 end
-close(h);
+##close(h);
 
 %init model
 %D = inv(S/sum(N));
@@ -150,8 +150,8 @@ for i=1:niters
     fprintf('%i: %g\n',i,obj(i));
 end
 
-plot(obj,'g');
-hold;
+##plot(obj,'g');
+##hold;
 %pause;
 
 model = model0;
@@ -163,7 +163,7 @@ for i=1:niters
     [model,obj(i)] = em_splda(model,S,F,N,opts);
     fprintf('%i: %g\n',i,obj(i));
 end
-plot(obj,'b');
+##plot(obj,'b');
 
 model = model0;
 leg = {leg{:},'both'};
@@ -174,8 +174,8 @@ for i=1:niters
     [model,obj(i)] = em_splda(model,S,F,N,opts);
     fprintf('%i: %g\n',i,obj(i));
 end
-plot(obj,'r');
+##plot(obj,'r');
 
-legend(leg);
+##legend(leg);
 
 end
