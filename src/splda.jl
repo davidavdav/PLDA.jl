@@ -1,10 +1,10 @@
 ## splda.jl.  Simplified Probabillistic Linear Discriminant Analysis.  After Niko Brümmer. 
 
-require("types.jl")
+# require("types.jl")
 
-## ivector dimension d
-## number of voices nv
-## 
+## d: ivector dimension
+## nv: number of voices
+## N: vector of speaker identities. 
 function em!(model::SPLDA, S::Matrix{Float64}, F::Matrix{Float64}, N::Vector{Int}; 
              doMinDiv=true, doD=true, doV=true)
     D = model.D                 # d x d
@@ -48,7 +48,7 @@ function em!(model::SPLDA, S::Matrix{Float64}, F::Matrix{Float64}, N::Vector{Int
     if doV
         V[:] = (Ryy \ Ty)'
     end
-    
+     
     if doD
         VTy = V * Ty  
         if doV  # faster, but breaks unless updating V
@@ -83,10 +83,3 @@ function SPLDA(nvoices::Int, S::Matrix{Float64}, F::Matrix{Float64}, N::Vector{I
     end
     model
 end
-             
-## ivectors in F are column vectors
-function train(model::SPLDA, Ntrain::Vector{Int}, Ftrain::Matrix{Float64}, accum::Matrix{Int})
-    D = model.D
-    V = model.V
-    μ = model.mu
-

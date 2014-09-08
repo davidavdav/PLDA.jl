@@ -1,3 +1,6 @@
+## Simple PLDA model structure
+## (c) 2014 David A. van Leeuwen
+
 type SPLDA{T<:FloatingPoint}
     D::Matrix{T}
     V::Matrix{T}
